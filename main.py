@@ -91,12 +91,11 @@ def renew_server(session: cloudscraper.CloudScraper) -> None:
 
         try:
             data = response.json()
-            status = data.get("status", False)
             message = data.get("msg", "")
-            if status:
-                logging.info(f"✅ 续费成功：{message}")
-            else:
+            if message=='请在到期前3天后再续费':
                 logging.warning(f"⚠️ 续费请求返回：{message}")
+            else:
+                logging.info(f"✅ 续费成功：{message}")         
         except Exception:
             logging.warning("⚠️ 返回内容不是 JSON，原始响应如下：")
             logging.warning(response.text)
