@@ -68,8 +68,8 @@ def login_session() -> Optional[cloudscraper.CloudScraper]:
 
         if "退出登录" not in resp.text and "member/index" not in resp.text:
             logging.error("❌ 登录失败，请检查用户名或密码是否正确。")
-            raise RuntimeError("❌ 登录失败，请检查用户名或密码是否正确。")
-            #return None
+            #raise RuntimeError("❌ 登录失败，请检查用户名或密码是否正确。")
+            return None
 
         # 访问控制台主页以保持 session
         console_resp = scraper.get(CONSOLE_URL)
