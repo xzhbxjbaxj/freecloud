@@ -2,8 +2,9 @@ import cloudscraper
 import os
 
 # 环境变量中读取凭证（也可以改为从环境变量读取）
-USERNAME = "abb295390@gmail.com"
-PASSWORD = "123456789zyZY"
+USERNAME = os.getenv("FC_USERNAME")
+PASSWORD = os.getenv("FC_PASSWORD")
+FC_MACHINE_ID=os.getenv("FC_MACHINE_ID")
 
 # 登录与续费 URL
 LOGIN_URL   = "https://freecloud.ltd/login"
