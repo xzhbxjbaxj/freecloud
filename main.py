@@ -10,8 +10,8 @@ logging.basicConfig(
 )
 
 # 从环境变量读取账号信息
-#USERNAME = os.getenv("FC_USERNAME")
-USERNAME="FFF"
+USERNAME = os.getenv("FC_USERNAME")
+#USERNAME="FFF"
 PASSWORD = os.getenv("FC_PASSWORD")
 MACHINE_ID = os.getenv("FC_MACHINE_ID")
 
