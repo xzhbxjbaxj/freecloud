@@ -122,11 +122,11 @@ def renew_server(session: cloudscraper.CloudScraper) -> None:
             if message == '请在到期前3天后再续费':
                 logging.warning(f"⚠️ 续费请求返回：{message}")
                 send_telegram_message(f"⚠️ {message}")
-             else: 
-              if message=='续费成功':
+            else: 
+             if message=='续费成功':
                 logging.info(f"✅ 续费成功：{message}")
                 send_telegram_message(f"✅ 续费成功：{message}")
-              else:
+             else:
                 logging.info(f"{message}")
                 send_telegram_message(f"{message}")
         except Exception:
