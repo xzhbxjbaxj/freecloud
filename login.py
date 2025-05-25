@@ -94,7 +94,7 @@ def login_session() -> Optional[cloudscraper.CloudScraper]:
         if "退出登录" not in resp.text and "member/index" not in resp.text:
             logging.error("❌ 登录失败，请检查用户名或密码是否正确。")
             send_telegram_message("❌ 登录失败，请检查 FreeCloud 用户名或密码是否正确。")
-            exist(1)
+            exit(1)
             return None
 
         scraper.get(CONSOLE_URL)
