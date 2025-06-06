@@ -1,38 +1,63 @@
-name: FreeCloud 自动续费
+name: Auto Renew 
 
 on:
   schedule:
-    - cron: '0 2 * * *'  # 每天 10:00（UTC+8）
-  workflow_dispatch:
+    - cron: "0 0 */6 * *"  # 每 6 天执行一次
 
 jobs:
-  renew:
+  run-renew-script:
     runs-on: ubuntu-latest
-
     steps:
-    - name: 🧾 拉取代码
-      uses: actions/checkout@v3
+      # 1. 拉取仓库代码
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: 🐍 设置 Python 环境
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
+      # 2. 设置 Python 环境
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
-    - name: 📦 安装依赖
-      run: |
-        pip install --no-cache-dir -r requirements.txt
+      # 3. 安装依赖
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4
 
-    - name: 🔐 登录获取 cookies
-      env:
-        FC_USERNAME: ${{ secrets.FC_USERNAME }}
-        FC_PASSWORD: ${{ secrets.FC_PASSWORD }}
-      run: |
-        python freecloud_login.py
+      # 4. 运行 Python 脚本
+      - name: Run renew script
+        env:
+          FC_PROFILES: ${{ secrets.FC_PROFILE }}  # 密钥注入
+        run: |
+          python freecloud_renew.py > result.txt
+        shell: bash
 
-    - name: 🔁 执行续费操作
-      env:
-        FC_MACHINE_ID: ${{ secrets.FC_MACHINE_ID }}
-        TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-        TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-      run: |
-        python freecloud_renew.py
+      # 5. 发送失败邮件通知
+      - name: Send Failure Notification
+        if: ${{ failure() }}
+        uses: cinotify/github-action@main
+        with:
+          to: ${{ secrets.FC_EMAIL }}
+          subject: "❌ Freecloud Renew Task Failed - $(date +'%Y-%m-%d')"
+          body: "<em>Freecloud renew task FAILED!!!</br>See the attachment </em>"
+          type: "text/html"
+          attachment: "result.txt"
+
+      # 6. 发送成功邮件通知
+      - name: Send Success Notification
+        if: ${{ success() }}
+        uses: cinotify/github-action@main
+        with:
+          to: ${{ secrets.FC_EMAIL }}
+          subject: "✅ Freecloud Renew Task Result - $(date +'%Y-%m-%d')"
+          body: "<em>Freecloud renew task succeeded. See log attached.</em>"
+          type: "text/html"
+          attachment: "result.txt"
+
+  # 保活任务（防止GitHub关闭Schedule）
+  workflow-keepalive:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - uses: liskin/gh-workflow-keepalive@v1
