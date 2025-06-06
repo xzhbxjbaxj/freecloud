@@ -1,8 +1,8 @@
-name: FreeCloud Auto Renew-test
+name: FreeCloud Auto Renew
 
 on:
   schedule:
-    - cron: "0 0 */2 * *"
+    - cron: "0 0 */2 * *"  # 每两天运行一次（UTC 0点，北京时间 8:00）
   workflow_dispatch:
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt update
-          sudo apt install -y unzip xvfb libxi6 libgconf-2-4 libnss3 libxss1 libappindicator3-1 fonts-liberation
+          sudo apt install -y unzip xvfb libxi6 libnss3 libxss1 libappindicator3-1 fonts-liberation
           pip install -r requirements.txt
 
       - name: Run Renew Script
@@ -31,7 +31,4 @@ jobs:
           FC_MACHINE_ID: ${{ secrets.FC_MACHINE_ID }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-        run: |
-          Xvfb :99 &
-          export DISPLAY=:99
-          python3 login.py
+        run: xvfb-run python3 login.py
