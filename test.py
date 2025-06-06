@@ -87,7 +87,7 @@ def login_session() -> Optional[tls_client.Session]:
 
     try:
         resp = session.post(LOGIN_URL, data=LOGIN_PAYLOAD, headers=HEADERS, allow_redirects=True)
-        resp.raise_for_status()
+        # resp.raise_for_status()
 
         if "退出登录" not in resp.text and "member/index" not in resp.text:
             logging.error("❌ 登录失败，请检查用户名或密码是否正确。")
@@ -112,7 +112,7 @@ def renew_server(session: tls_client.Session) -> None:
 
     try:
         response = session.post(RENEW_URL, data=RENEW_PAYLOAD, headers=HEADERS)
-        response.raise_for_status()
+        # response.raise_for_status()
 
         try:
             data = response.json()
