@@ -81,7 +81,7 @@ def login_session() -> Optional[tls_client.Session]:
     session = tls_client.Session(client_identifier="chrome_120")
     try:
         resp = session.post(LOGIN_URL, data=LOGIN_PAYLOAD, headers=HEADERS)
-        if resp.status_code != 200 or "退出登录" not in resp.text:
+        if "退出登录" not in resp.text and "member/index" not in resp.text:
             logging.error("❌ 登录失败，请检查用户名密码")
             send_telegram_message("❌ FreeCloud 登录失败，请检查账号信息")
             exit(1)
