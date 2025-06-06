@@ -34,7 +34,8 @@ Telegram 通知签到结果（可选）
 第二步：添加 Secrets（存放账号信息）
 - 1.进入你 Fork 后的仓库主页。
 - 2.点击 Settings → 左侧 Secrets and variables → Actions。
-- 3.点击 New repository secret 添加以下内容：                  
+- 3.点击 New repository secret 添加以下内容：
+                 
 | 名称              | 含义                 | 示例或说明                 |
 | --------------- | ------------------ | --------------------- |
 | `FC_USERNAME`   | FreeCloud 登录邮箱     | `example@gmail.com`   |
