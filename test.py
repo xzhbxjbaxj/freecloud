@@ -89,7 +89,7 @@ def login_session() -> Optional[tls_client.Session]:
         resp = session.post(LOGIN_URL, data=LOGIN_PAYLOAD, headers=HEADERS, allow_redirects=True)
         # resp.raise_for_status()
 
-        if "退出登录" not in resp.text and "member/index" not in resp.text:
+        if "/member/index" in resp.headers.get("Location", "") or "退出登录" in resp.text:
             logging.error("❌ 登录失败，请检查用户名或密码是否正确。")
             send_telegram_message("❌ 登录失败，请检查 FreeCloud 用户名或密码是否正确。")
             exit(1)
