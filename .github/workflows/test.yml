@@ -1,32 +1,43 @@
-name: Fre
+name: FreeCloud 自动续费
 
 on:
   schedule:
-    - cron: "0 0 */2 * *"  # 每两天执行一次
-  workflow_dispatch:
+    - cron: '0 2 * * *'  # 每天 10:00（UTC+8）
+  workflow_dispatch:      # 支持手动触发
 
 jobs:
   renew:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    - name: 🧾 检出仓库代码
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+    - name: 🐍 设置 Python 环境
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
 
-      - name: Install all dependencies
-        run: |
-          pip install tls-client typing_extensions requests
+    - name: 📦 安装依赖
+      run: |
+        pip install --no-cache-dir -U httpx requests
 
-      - name: Run FreeCloud renew script
-        env:
-          FC_USERNAME: ${{ secrets.FC_USERNAME }}
-          FC_PASSWORD: ${{ secrets.FC_PASSWORD }}
-          FC_MACHINE_ID: ${{ secrets.FC_MACHINE_ID }}
-          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-        run: python3 test.py
+    - name: 🔐 设置环境变量
+      env:
+        FC_USERNAME: ${{ secrets.FC_USERNAME }}
+        FC_PASSWORD: ${{ secrets.FC_PASSWORD }}
+        FC_MACHINE_ID: ${{ secrets.FC_MACHINE_ID }}
+        TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+        TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+      run: |
+        echo "✅ 环境变量已注入"
+
+    - name: 🚀 执行 FreeCloud 登录与续费脚本
+      env:
+        FC_USERNAME: ${{ secrets.FC_USERNAME }}
+        FC_PASSWORD: ${{ secrets.FC_PASSWORD }}
+        FC_MACHINE_ID: ${{ secrets.FC_MACHINE_ID }}
+        TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+        TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+      run: |
+        python your_script.py  # 替换为你的脚本文件名
