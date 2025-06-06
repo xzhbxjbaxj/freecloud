@@ -1,4 +1,4 @@
-name: FreeCloud Auto Renew
+name: FreeCloud Auto Renew-test
 
 on:
   schedule:
