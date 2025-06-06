@@ -52,8 +52,9 @@ LOGIN_PAYLOAD = {
 # 续费表单数据
 RENEW_PAYLOAD = {
     "month": "1",
-    "submit": "1",
-    "coupon_id": 0
+     "coupon_id": 0,
+    "submit": "1"
+   
 }
 
 
@@ -113,7 +114,7 @@ def renew_server(session: tls_client.Session) -> None:
     try:
         response = session.post(RENEW_URL, data=RENEW_PAYLOAD, headers=HEADERS)
         # response.raise_for_status()
-
+        print(response.text)
         try:
             data = response.json()
             message = data.get("msg", "")
