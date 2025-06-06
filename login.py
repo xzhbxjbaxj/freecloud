@@ -105,8 +105,8 @@ def login_session() -> Optional[cloudscraper.CloudScraper]:
     except Exception as e:
         logging.exception("❌ 登录过程中发生错误：")
         send_telegram_message(f"❌ 登录出错：{str(e)}")
+        exit(1)
         return None
-
 
 def renew_server(session: cloudscraper.CloudScraper) -> None:
     """
@@ -136,11 +136,11 @@ def renew_server(session: cloudscraper.CloudScraper) -> None:
             logging.warning("⚠️ 返回内容不是 JSON，原始响应如下：")
             logging.warning(response.text)
             send_telegram_message(f"⚠️ 无法解析续费响应，原始内容：\n{response.text}")
-
+            exit(1)
     except Exception as e:
         logging.exception("❌ 续费请求失败：")
         send_telegram_message(f"❌ 续费失败：{str(e)}")
-
+        exit(1)
 
 if __name__ == "__main__":
     session = login_session()
