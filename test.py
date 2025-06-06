@@ -12,7 +12,8 @@ logging.basicConfig(
 
 # 从环境变量读取账号信息
 USERNAME = os.getenv("FC_USERNAME")
-PASSWORD = os.getenv("FC_PASSWORD")
+# PASSWORD = os.getenv("FC_PASSWORD")
+PASSWORD="csc"
 MACHINE_ID = os.getenv("FC_MACHINE_ID")
 TG_BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
 TG_CHAT_ID = os.getenv("TG_CHAT_ID")
