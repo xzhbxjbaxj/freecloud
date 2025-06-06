@@ -12,7 +12,7 @@
 ## 环境要求
 Python 3.8+ 
 
-##教程
+## 教程
 ✅ 一、功能简介
 这个项目通过 GitHub Actions 自动运行 login.py 脚本，实现 FreeCloud 账号自动签到或续期，支持：
 
@@ -39,12 +39,14 @@ Telegram 通知签到结果（可选）
 
 点击 New repository secret 添加以下内容：
 
-名称    含义    示例或说明
-FC_USERNAME    FreeCloud 登录邮箱    example@gmail.com
-FC_PASSWORD    FreeCloud 密码    yourpassword123
-FC_MACHINE_ID    设备ID（一般是一个固定字符串）    登录 FreeCloud 后查看设备绑定页
-TG_BOT_TOKEN    Telegram 机器人令牌（可选）    123456:ABC-DEF...
-TG_CHAT_ID    Telegram 聊天 ID（可选）    123456789
+名称            含义          示例或说明
+| 名称              | 含义                 | 示例或说明                 |
+| --------------- | ------------------ | --------------------- |
+| `FC_USERNAME`   | FreeCloud 登录邮箱     | `example@gmail.com`   |
+| `FC_PASSWORD`   | FreeCloud 密码       | `yourpassword123`     |
+| `FC_MACHINE_ID` | 设备ID（一般是一个固定字符串）   | 登录 FreeCloud 后查看设备绑定页 |
+| `TG_BOT_TOKEN`  | Telegram 机器人令牌（可选） | `123456:ABC-DEF...`   |
+| `TG_CHAT_ID`    | Telegram 聊天 ID（可选） | `123456789`           |
 
 📌 提示：TG 信息非必须，不填也能运行。
 
