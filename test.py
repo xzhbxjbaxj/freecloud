@@ -11,11 +11,19 @@ logging.basicConfig(
 )
 
 # 读取环境变量
+# USERNAME = os.getenv("FC_USERNAME")
+# PASSWORD = os.getenv("FC_PASSWORD")
+# MACHINE_ID = os.getenv("FC_MACHINE_ID")
+# TG_BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
+# TG_CHAT_ID = os.getenv("TG_CHAT_ID")
+
+
 USERNAME = os.getenv("FC_USERNAME")
 PASSWORD = os.getenv("FC_PASSWORD")
 MACHINE_ID = os.getenv("FC_MACHINE_ID")
 TG_BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
 TG_CHAT_ID = os.getenv("TG_CHAT_ID")
+
 
 if not all([USERNAME, PASSWORD, MACHINE_ID]):
     logging.error("❌ 缺少环境变量，请确保设置了 FC_USERNAME / FC_PASSWORD / FC_MACHINE_ID")
