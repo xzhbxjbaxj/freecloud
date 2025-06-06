@@ -1,3 +1,5 @@
+# 此脚本暂时失效，正在修复......
+# 如果有需要可以看我的另一种续费方式https://github.com/xzhbxjbaxj/cloud
 # FreeCloud 自动续费脚本
 
 ## 项目简介
