@@ -95,7 +95,7 @@ def login_session() -> Optional[tls_client.Session]:
             exit(1)
             return None
 
-        session.get(CONSOLE_URL, headers=HEADERS)
+        # session.get(CONSOLE_URL, headers=HEADERS)
         logging.info("✅ 登录成功！")
         send_telegram_message("✅ FreeCloud 登录成功！")
         return session
