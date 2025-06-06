@@ -40,4 +40,4 @@ jobs:
         TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
         TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
       run: |
-        python your_script.py  # 替换为你的脚本文件名
+        python test.py  # 替换为你的脚本文件名
