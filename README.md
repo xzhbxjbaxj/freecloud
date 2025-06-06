@@ -68,9 +68,9 @@ Q2：怎么获取 Telegram 通知 Token 和 Chat ID？
 向你的机器人发送一条消息，然后访问下面链接查看你的chat_id：https://api.telegram.org/bot<你的Token>/getUpdates
 
 ✅ 教程完结<br>
-现在，你的 FreeCloud 自动签到系统已经搭建完成！它将：<br>
-每两天自动运行一次<br>
-使用你设置的账号自动签到<br>
-可选通知到 Telegram<br>
-如需进一步定制或调试，可以编辑 login.py 或 workflow 文件。<br>
+- 现在，你的 FreeCloud 自动签到系统已经搭建完成！它将：<br>
+- 每两天自动运行一次<br>
+- 使用你设置的账号自动签到<br>
+- 可选通知到 Telegram<br>
+- 如需进一步定制或调试，可以编辑 login.py 或 workflow 文件。<br>
 pip install cloudscraper requests
