@@ -37,9 +37,7 @@ Telegram 通知签到结果（可选）
 
 点击 Settings → 左侧 Secrets and variables → Actions。
 
-点击 New repository secret 添加以下内容：
-
-名称            含义          示例或说明
+点击 New repository secret 添加以下内容：                  
 | 名称              | 含义                 | 示例或说明                 |
 | --------------- | ------------------ | --------------------- |
 | `FC_USERNAME`   | FreeCloud 登录邮箱     | `example@gmail.com`   |
@@ -71,10 +69,8 @@ Q1：如何获取 FC_MACHINE_ID？
 答：登录 FreeCloud 官网，在设备管理处查看当前登录设备的唯一 ID，复制即可。
 
 Q2：怎么获取 Telegram 通知 Token 和 Chat ID？
-答：
-@BotFather 创建 Bot，获取 Token
-向你的机器人发送一条消息，然后访问下面链接查看你的 chat_id：
-https://api.telegram.org/bot<你的Token>/getUpdates
+答：@BotFather 创建 Bot，获取 Token
+向你的机器人发送一条消息，然后访问下面链接查看你的chat_id：https://api.telegram.org/bot<你的Token>/getUpdates
 
 ✅ 教程完结
 现在，你的 FreeCloud 自动签到系统已经搭建完成！它将：
