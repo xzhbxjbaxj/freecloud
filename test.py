@@ -18,8 +18,11 @@ logging.basicConfig(
 # TG_CHAT_ID = os.getenv("TG_CHAT_ID")
 
 
-USERNAME = os.getenv("FC_USERNAME")
-PASSWORD = os.getenv("FC_PASSWORD")
+# USERNAME = os.getenv("FC_USERNAME")
+# PASSWORD = os.getenv("FC_PASSWORD")
+USERNAME = "abb295390@gmail.com"
+PASSWORD="123456789zyZY"
+
 MACHINE_ID = os.getenv("FC_MACHINE_ID")
 TG_BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
 TG_CHAT_ID = os.getenv("TG_CHAT_ID")
