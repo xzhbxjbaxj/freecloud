@@ -3,14 +3,14 @@ name: FreeCloud 自动续费
 on:
   schedule:
     - cron: '0 2 * * *'  # 每天 10:00（UTC+8）
-  workflow_dispatch:      # 支持手动触发
+  workflow_dispatch:
 
 jobs:
   renew:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 🧾 检出仓库代码
+    - name: 🧾 拉取代码
       uses: actions/checkout@v3
 
     - name: 🐍 设置 Python 环境
@@ -20,24 +20,19 @@ jobs:
 
     - name: 📦 安装依赖
       run: |
-        pip install --no-cache-dir -U httpx requests
+        pip install --no-cache-dir -r requirements.txt
 
-    - name: 🔐 设置环境变量
+    - name: 🔐 登录获取 cookies
       env:
         FC_USERNAME: ${{ secrets.FC_USERNAME }}
         FC_PASSWORD: ${{ secrets.FC_PASSWORD }}
+      run: |
+        python freecloud_login.py
+
+    - name: 🔁 执行续费操作
+      env:
         FC_MACHINE_ID: ${{ secrets.FC_MACHINE_ID }}
         TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
         TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
       run: |
-        echo "✅ 环境变量已注入"
-
-    - name: 🚀 执行 FreeCloud 登录与续费脚本
-      env:
-        FC_USERNAME: ${{ secrets.FC_USERNAME }}
-        FC_PASSWORD: ${{ secrets.FC_PASSWORD }}
-        FC_MACHINE_ID: ${{ secrets.FC_MACHINE_ID }}
-        TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-        TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-      run: |
-        python test.py  # 替换为你的脚本文件名
+        python freecloud_renew.py
