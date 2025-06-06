@@ -1,4 +1,4 @@
-name: ss
+name: Fre
 
 on:
   schedule:
@@ -8,19 +8,21 @@ on:
 jobs:
   renew:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
-      - name: Setup Python
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install all dependencies
         run: |
-          pip install tls-client typing_extensions
+          pip install tls-client typing_extensions requests
 
-      - name: Run renew script
+      - name: Run FreeCloud renew script
         env:
           FC_USERNAME: ${{ secrets.FC_USERNAME }}
           FC_PASSWORD: ${{ secrets.FC_PASSWORD }}
