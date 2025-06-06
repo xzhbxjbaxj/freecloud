@@ -1,0 +1,37 @@
+name: FreeCloud Auto Renew
+
+on:
+  schedule:
+    - cron: "0 0 */2 * *"
+  workflow_dispatch:
+
+jobs:
+  renew:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y unzip xvfb libxi6 libgconf-2-4 libnss3 libxss1 libappindicator3-1 fonts-liberation
+          pip install -r requirements.txt
+
+      - name: Run Renew Script
+        env:
+          FC_USERNAME: ${{ secrets.FC_USERNAME }}
+          FC_PASSWORD: ${{ secrets.FC_PASSWORD }}
+          FC_MACHINE_ID: ${{ secrets.FC_MACHINE_ID }}
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+        run: |
+          Xvfb :99 &
+          export DISPLAY=:99
+          python3 login.py
