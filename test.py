@@ -14,9 +14,7 @@ MACHINE_ID = os.getenv("FC_MACHINE_ID")
 TG_BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
 TG_CHAT_ID = os.getenv("TG_CHAT_ID")
 FC_COOKIE = os.getenv("FC_COOKIE")  # 从环境变量读取 Cookie
-FC_COOKIE={
-    "sw110xy":"b0ghmbtjs42rhf4neg0189o2kk91ktsk"
-}
+FC_COOKIE="sw110xy=b0ghmbtjs42rhf4neg0189o2kk91ktsk"
 # 如果未设置环境变量，可直接手动赋值
 # FC_COOKIE = "your_freecloud_cookie_here"
 
