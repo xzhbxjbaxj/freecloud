@@ -28,16 +28,13 @@ Telegram 通知签到结果（可选）
 
 📝 三、详细操作步骤
 第一步：Fork 仓库（复制一份到自己账号）
-打开项目页面（如果是别人的项目，地址形如 https://github.com/xxx/FreeCloud-Auto-Renew）
-
-点击右上角的 Fork，选择你自己的账号即可。
+1.打开项目页面（如果是别人的项目，地址形如 https://github.com/xxx/FreeCloud-Auto-Renew）
+2.点击右上角的 Fork，选择你自己的账号即可。
 
 第二步：添加 Secrets（存放账号信息）
-进入你 Fork 后的仓库主页。
-
-点击 Settings → 左侧 Secrets and variables → Actions。
-
-点击 New repository secret 添加以下内容：                  
+1.进入你 Fork 后的仓库主页。
+2.点击 Settings → 左侧 Secrets and variables → Actions。
+3.点击 New repository secret 添加以下内容：                  
 | 名称              | 含义                 | 示例或说明                 |
 | --------------- | ------------------ | --------------------- |
 | `FC_USERNAME`   | FreeCloud 登录邮箱     | `example@gmail.com`   |
@@ -49,17 +46,14 @@ Telegram 通知签到结果（可选）
 📌 提示：TG 信息非必须，不填也能运行。
 
 第三步：查看脚本运行（首次手动执行）
-打开你的仓库 → 点击顶部 Actions 标签页。
-
-你会看到 FreeCloud Auto Renew，点击进入。
-
-点击右侧 Run workflow → 点击绿色按钮手动运行一次。
+1.打开你的仓库 → 点击顶部 Actions 标签页。
+2.你会看到 FreeCloud Auto Renew，点击进入。
+3.点击右侧 Run workflow → 点击绿色按钮手动运行一次。
 
 💡成功后可在 Actions 日志中查看签到结果。
 
 第四步：设置自动运行（已默认配置）
 在 .github/workflows/xxx.yml 文件中已经设置：
-
 
 - cron: "0 0 */2 * *"
 表示：每 2 天自动执行一次（UTC 时间 0:00），不需你手动改动。
