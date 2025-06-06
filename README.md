@@ -22,8 +22,8 @@ Telegram 通知签到结果（可选）
 
 🛠️ 二、准备工作
 1. 你需要准备：
-一个 GitHub 账号（注册：https://github.com）
-一个 FreeCloud 账号（用于获取登录信息）
+- 一个 GitHub 账号（注册：https://github.com）
+- 一个 FreeCloud 账号（用于获取登录信息）
 （可选）一个 Telegram Bot Token 和 Chat ID（用于通知）
 
 📝 三、详细操作步骤
@@ -32,9 +32,9 @@ Telegram 通知签到结果（可选）
 2.点击右上角的 Fork，选择你自己的账号即可。
 
 第二步：添加 Secrets（存放账号信息）
-1.进入你 Fork 后的仓库主页。
-2.点击 Settings → 左侧 Secrets and variables → Actions。
-3.点击 New repository secret 添加以下内容：                  
+- 1.进入你 Fork 后的仓库主页。
+- 2.点击 Settings → 左侧 Secrets and variables → Actions。
+- 3.点击 New repository secret 添加以下内容：                  
 | 名称              | 含义                 | 示例或说明                 |
 | --------------- | ------------------ | --------------------- |
 | `FC_USERNAME`   | FreeCloud 登录邮箱     | `example@gmail.com`   |
@@ -46,9 +46,9 @@ Telegram 通知签到结果（可选）
 📌 提示：TG 信息非必须，不填也能运行。
 
 第三步：查看脚本运行（首次手动执行）
-1.打开你的仓库 → 点击顶部 Actions 标签页。
-2.你会看到 FreeCloud Auto Renew，点击进入。
-3.点击右侧 Run workflow → 点击绿色按钮手动运行一次。
+- 1.打开你的仓库 → 点击顶部 Actions 标签页。
+- 2.你会看到 FreeCloud Auto Renew，点击进入。
+- 3.点击右侧 Run workflow → 点击绿色按钮手动运行一次。
 
 💡成功后可在 Actions 日志中查看签到结果。
 
