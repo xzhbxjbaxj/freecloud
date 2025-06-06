@@ -1,120 +1,122 @@
 import os
-import time
+import tls_client
 import logging
 import requests
-import undetected_chromedriver as uc
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+from typing import Optional
 
 # 日志配置
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s"
+)
 
-# 环境变量
+# 读取环境变量
 USERNAME = os.getenv("FC_USERNAME")
 PASSWORD = os.getenv("FC_PASSWORD")
 MACHINE_ID = os.getenv("FC_MACHINE_ID")
 TG_BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
 TG_CHAT_ID = os.getenv("TG_CHAT_ID")
 
+if not all([USERNAME, PASSWORD, MACHINE_ID]):
+    logging.error("❌ 缺少环境变量，请确保设置了 FC_USERNAME / FC_PASSWORD / FC_MACHINE_ID")
+    exit(1)
+
+# URL
 LOGIN_URL = "https://freecloud.ltd/login"
+CONSOLE_URL = "https://freecloud.ltd/member/index"
 RENEW_URL = f"https://freecloud.ltd/server/detail/{MACHINE_ID}/renew"
 
-def send_telegram(message):
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0.0.0 Safari/537.36",
+    "Origin": "https://freecloud.ltd",
+    "Referer": "https://freecloud.ltd/login",
+    "Content-Type": "application/x-www-form-urlencoded"
+}
+
+LOGIN_PAYLOAD = {
+    "username": USERNAME,
+    "password": PASSWORD,
+    "mobile": "",
+    "captcha": "",
+    "verify_code": "",
+    "agree": "1",
+    "login_type": "PASS",
+    "submit": "1",
+}
+
+RENEW_PAYLOAD = {
+    "month": "1",
+    "submit": "1",
+    "coupon_id": 0
+}
+
+
+def send_telegram_message(message: str):
     if not TG_BOT_TOKEN or not TG_CHAT_ID:
-        logging.warning("未配置 Telegram 相关信息")
+        logging.warning("⚠️ 未配置 TG_BOT_TOKEN 或 TG_CHAT_ID，跳过 Telegram 通知。")
         return
+    url = f"https://api.telegram.org/bot{TG_BOT_TOKEN}/sendMessage"
+    data = {"chat_id": TG_CHAT_ID, "text": message, "parse_mode": "Markdown"}
     try:
-        requests.post(
-            f"https://api.telegram.org/bot{TG_BOT_TOKEN}/sendMessage",
-            data={"chat_id": TG_CHAT_ID, "text": message},
-            timeout=10,
-        )
+        res = requests.post(url, data=data)
+        if res.status_code != 200:
+            logging.warning(f"⚠️ Telegram 消息推送失败：{res.text}")
     except Exception as e:
-        logging.warning(f"Telegram 消息发送失败: {e}")
+        logging.error(f"❌ 推送 Telegram 异常：{e}")
 
-def login_and_get_session():
-    logging.info("启动浏览器进行模拟登录...")
-    options = uc.ChromeOptions()
-    options.add_argument("--headless")  # 如需调试，可注释掉这行
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-gpu")
 
-    driver = uc.Chrome(options=options)
-
+def login_session() -> Optional[tls_client.Session]:
+    logging.info("🚀 正在登录 FreeCloud ...")
+    session = tls_client.Session(client_identifier="chrome_120")
     try:
-        driver.get(LOGIN_URL)
-        time.sleep(2)
-
-        # 填写用户名和密码
-        driver.find_element(By.NAME, "username").send_keys(USERNAME)
-        driver.find_element(By.NAME, "password").send_keys(PASSWORD)
-        driver.find_element(By.NAME, "agree").click()
-        driver.find_element(By.NAME, "submit").click()
-
-        time.sleep(5)
-
-        if "member/index" not in driver.current_url:
-            logging.error("❌ 登录失败，页面未跳转至用户中心")
-            send_telegram("❌ 登录失败，FreeCloud 用户名或密码可能错误")
-            driver.quit()
-            return None
-
-        logging.info("✅ 登录成功，获取 cookies 中...")
-        send_telegram("✅ 登录成功，准备续费")
-
-        session = requests.Session()
-        for cookie in driver.get_cookies():
-            session.cookies.set(cookie['name'], cookie['value'])
-
+        resp = session.post(LOGIN_URL, data=LOGIN_PAYLOAD, headers=HEADERS)
+        if resp.status_code != 200 or "退出登录" not in resp.text:
+            logging.error("❌ 登录失败，请检查用户名密码")
+            send_telegram_message("❌ FreeCloud 登录失败，请检查账号信息")
+            exit(1)
+        logging.info("✅ 登录成功！")
+        send_telegram_message("✅ FreeCloud 登录成功！")
         return session
-
     except Exception as e:
-        logging.exception("❌ 登录异常")
-        send_telegram(f"❌ 登录出错：{str(e)}")
-        return None
-    finally:
-        driver.quit()
-
-def renew(session):
-    logging.info("发起续费请求...")
-    headers = {
-        "Referer": f"https://freecloud.ltd/server/detail/{MACHINE_ID}",
-        "User-Agent": "Mozilla/5.0",
-    }
-
-    data = {
-        "month": "1",
-        "submit": "1",
-        "coupon_id": 0
-    }
-
-    try:
-        resp = session.post(RENEW_URL, headers=headers, data=data)
-        resp.raise_for_status()
-        try:
-            result = resp.json()
-            msg = result.get("msg", "无返回消息")
-        except:
-            msg = resp.text[:100]
-
-        if "续费成功" in msg:
-            logging.info("✅ 续费成功")
-            send_telegram("✅ FreeCloud 续费成功")
-        elif "请在到期前" in msg:
-            logging.info(f"⚠️ 暂不能续费: {msg}")
-            send_telegram(f"⚠️ {msg}")
-        else:
-            logging.error(f"❌ 续费失败: {msg}")
-            send_telegram(f"❌ 续费失败: {msg}")
-    except Exception as e:
-        logging.exception("❌ 续费请求失败")
-        send_telegram(f"❌ 请求失败：{str(e)}")
-
-if __name__ == "__main__":
-    if not all([USERNAME, PASSWORD, MACHINE_ID]):
-        logging.error("❌ 环境变量 FC_USERNAME / FC_PASSWORD / FC_MACHINE_ID 缺失")
+        logging.exception("❌ 登录异常：")
+        send_telegram_message(f"❌ 登录异常：{e}")
         exit(1)
 
-    session = login_and_get_session()
-    if session:
-        renew(session)
+
+def renew_server(session: tls_client.Session):
+    logging.info(f"🔄 尝试为机器 {MACHINE_ID} 续费...")
+    try:
+        resp = session.post(RENEW_URL, data=RENEW_PAYLOAD, headers=HEADERS)
+        if resp.status_code != 200:
+            logging.error(f"❌ 续费请求失败，状态码：{resp.status_code}")
+            send_telegram_message("❌ FreeCloud 续费请求失败")
+            exit(1)
+
+        try:
+            result = resp.json()
+            msg = result.get("msg", "")
+            if msg == "请在到期前3天后再续费":
+                logging.warning(f"⚠️ {msg}")
+                send_telegram_message(f"⚠️ {msg}")
+            elif msg == "续费成功":
+                logging.info(f"✅ {msg}")
+                send_telegram_message(f"✅ FreeCloud 续费成功！")
+            else:
+                logging.error(f"❌ 未知返回消息：{msg}")
+                send_telegram_message(f"❌ 续费失败：{msg}")
+                exit(1)
+        except Exception:
+            logging.error("⚠️ 返回内容非 JSON")
+            logging.error(resp.text)
+            send_telegram_message("⚠️ 无法解析续费响应")
+            exit(1)
+    except Exception as e:
+        logging.exception("❌ 续费请求异常：")
+        send_telegram_message(f"❌ FreeCloud 续费失败：{e}")
+        exit(1)
+
+
+if __name__ == "__main__":
+    sess = login_session()
+    if sess:
+        renew_server(sess)
