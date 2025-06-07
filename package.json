@@ -1,11 +1,13 @@
 {
   "name": "freecloud-renew",
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
+  "main": "renew.js",
   "scripts": {
     "start": "node renew.js"
   },
   "dependencies": {
-    "node-fetch": "^3.4.0"
+    "node-fetch": "^2.6.9"
   }
 }
+
