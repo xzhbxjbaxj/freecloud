@@ -88,12 +88,12 @@ async function main() {
         msg.includes("缺少用户名、密码或端口号")
       ) {
         console.error(msg);
-        sendTelegramMessage(message)    
+        sendTelegramMessage(message);    
         process.exit(1); // 让 GitHub Actions 失败退出
       }
       else{
-        console.log(msg)
-        sendTelegramMessage(message) 
+        console.log(msg);
+        sendTelegramMessage(message); 
       }
     } catch (err) {
       console.log("⚠️ 返回内容非 JSON:\n", text);
