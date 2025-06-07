@@ -22,7 +22,7 @@ const urls = [
 const url = urls[Math.floor(Math.random() * urls.length)];
 
 const data = {
-  username: USERNAME,
+ // username: USERNAME,
   password: PASSWORD,
   port: MACHINE_ID, // 或 machine_id
 };
@@ -40,8 +40,7 @@ async function main() {
     const text = await response.text();
     console.log("使用接口:", url);
     console.log("状态码:", response.status);
-    console.log("响应文本:\n", text);
-  } catch (err) {
+    console.log("相应内容",response.status)
     console.error("❌ 请求失败:", err);
     process.exit(1);
   }
