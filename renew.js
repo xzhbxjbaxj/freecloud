@@ -47,6 +47,7 @@ const headers = {
     });
 
     const rawCookie = loginResp.headers.get("set-cookie");
+    rawCookie="sw110xy=f27ko5q5idu93ha4nmsv6jun7skujl15;  07-Jun-2025 18:03:55 GMT"
     if (!rawCookie) {
       console.error("❌ 登录失败，未获取 Cookie");
       process.exit(1);
