@@ -25,7 +25,7 @@ jobs:
         env:
           FC_USERNAME: ${{ secrets.FC_USERNAME }}
           FC_PASSWORD: ${{ secrets.FC_PASSWORD }}
-          FC_PORT: ${{ secrets.FC_PORT }}
+          FC_PORT: ${{ secrets.FC_MACHINE_ID }}
         run: |
           node renew.js > result.txt
 
