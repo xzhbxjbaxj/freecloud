@@ -46,15 +46,14 @@ const headers = {
       redirect: "manual"
     });
 
-    const rawCookie = loginResp.headers.get("set-cookie");
-    rawCookie="sw110xy=f27ko5q5idu93ha4nmsv6jun7skujl15;  07-Jun-2025 18:03:55 GMT"
-    if (!rawCookie) {
-      console.error("❌ 登录失败，未获取 Cookie");
-      process.exit(1);
-    }
+    // const rawCookie = loginResp.headers.get("set-cookie");
+    // if (!rawCookie) {
+    //   console.error("❌ 登录失败，未获取 Cookie");
+    //   process.exit(1);
+    // }
 
-    const cookie = rawCookie.split(',').map(c => c.split(';')[0]).join('; ');
-
+    // const cookie = rawCookie.split(',').map(c => c.split(';')[0]).join('; ');
+    const  cookie="sw110xy=f27ko5q5idu93ha4nmsv6jun7skujl15;  07-Jun-2025 18:03:55 GMT"
     await fetch(CONSOLE_URL, {
       method: "GET",
       headers: {
