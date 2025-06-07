@@ -1,50 +1,49 @@
 name: 测试
 
 on:
-  workflow_dispatch:  # 手动触发
+  workflow_dispatch:  # 支持手动触发
   schedule:
-    - cron: "0 0 */6 * *"  # 每6天运行一次
+    - cron: '0 0 */6 * *'  # 每 6 天运行一次
 
 jobs:
-  renew-task:
+  renew:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: '20'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: Run renew script
+      - name: Run Renew Script
         env:
-          FC_USERNAME: ${{ secrets.FC_USERNAME }}
-          FC_PASSWORD: ${{ secrets.FC_PASSWORD }}
-          FC_PORT: ${{ secrets.FC_MACHINE_ID }}
+          USERNAME: ${{ secrets.FC_USERNAME }}
+          PASSWORD: ${{ secrets.FC_PASSWORD }}
+          FC_MACHINE_ID: ${{ secrets.FC_MACHINE_ID }}
         run: |
           node renew.js > result.txt
 
-      - name: Send failure email
-        if: failure()
+      - name: Send Failure Email
+        if: ${{ failure() }}
         uses: cinotify/github-action@main
         with:
           to: ${{ secrets.FC_EMAIL }}
           subject: "❌ Freecloud Renew Failed - $(date +'%Y-%m-%d')"
           body: "<em>任务失败，详见附件</em>"
-          type: "text/html"
-          attachment: "result.txt"
+          type: text/html
+          attachment: result.txt
 
-      - name: Send success email
-        if: success()
+      - name: Send Success Email
+        if: ${{ success() }}
         uses: cinotify/github-action@main
         with:
           to: ${{ secrets.FC_EMAIL }}
-          subject: "✅ Freecloud Renew Result - $(date +'%Y-%m-%d')"
-          body: "<em>任务执行成功</em>"
-          type: "text/html"
-          attachment: "result.txt"
+          subject: "✅ Freecloud Renew Success - $(date +'%Y-%m-%d')"
+          body: "<em>任务成功，详见附件</em>"
+          type: text/html
+          attachment: result.txt
