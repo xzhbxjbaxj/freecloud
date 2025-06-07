@@ -1,5 +1,3 @@
-// renew.js
-
 import fetch from "node-fetch";
 
 // 从环境变量读取
@@ -18,13 +16,13 @@ const urls = [
   "https://round-breeze-41c8.dj2cubz.workers.dev/"
 ];
 
-// 从中随机选择一个
+// 随机选择一个 URL
 const url = urls[Math.floor(Math.random() * urls.length)];
 
 const data = {
  // username: USERNAME,
   password: PASSWORD,
-  port: MACHINE_ID, // 或 machine_id
+  port: MACHINE_ID
 };
 
 async function main() {
@@ -32,15 +30,23 @@ async function main() {
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     });
 
     const text = await response.text();
     console.log("使用接口:", url);
     console.log("状态码:", response.status);
-    console.log("相应内容",response.status)
+
+    try {
+      const json = JSON.parse(text);
+      console.log("响应内容:", json.message);
+    } catch (err) {
+      console.log("⚠️ 返回内容非 JSON:\n", text);
+    }
+
+  } catch (err) {
     console.error("❌ 请求失败:", err);
     process.exit(1);
   }
