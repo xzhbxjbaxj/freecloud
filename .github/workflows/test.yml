@@ -1,49 +1,29 @@
 name: 测试
 
 on:
-  workflow_dispatch:  # 支持手动触发
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 */6 * *'  # 每 6 天运行一次
+    - cron: "0 0 */3 * *"
 
 jobs:
   renew:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install node-fetch@2
 
-      - name: Run Renew Script
+      - name: Run JS Renew Script
+        run: node renew.js
         env:
-          USERNAME: ${{ secrets.FC_USERNAME }}
-          PASSWORD: ${{ secrets.FC_PASSWORD }}
+          FC_USERNAME: ${{ secrets.FC_USERNAME }}
+          FC_PASSWORD: ${{ secrets.FC_PASSWORD }}
           FC_MACHINE_ID: ${{ secrets.FC_MACHINE_ID }}
-        run: |
-          node renew.js > result.txt
-
-      - name: Send Failure Email
-        if: ${{ failure() }}
-        uses: cinotify/github-action@main
-        with:
-          to: ${{ secrets.FC_EMAIL }}
-          subject: "❌ Freecloud Renew Failed - $(date +'%Y-%m-%d')"
-          body: "<em>任务失败，详见附件</em>"
-          type: text/html
-          attachment: result.txt
-
-      - name: Send Success Email
-        if: ${{ success() }}
-        uses: cinotify/github-action@main
-        with:
-          to: ${{ secrets.FC_EMAIL }}
-          subject: "✅ Freecloud Renew Success - $(date +'%Y-%m-%d')"
-          body: "<em>任务成功，详见附件</em>"
-          type: text/html
-          attachment: result.txt
