@@ -32,6 +32,8 @@
 | `FC_USERNAME`   | `user@example.com` | 登录用户名      |
 | `FC_PASSWORD`   | `mypassword123`    | 登录密码       |
 | `FC_MACHINE_ID` | `12345`            | 服务的端口或机器编号 |
+| `TG_BOT_TOKEN`(可选) | `12345`            | Telegram 机器人 token |
+| `TG_BOT_TOKEN`(可选) | `12345`            | Telegram 你的 chat ID |
 
 
 3️⃣ 启用 GitHub Actions
