@@ -1,78 +1,74 @@
-# 此脚本暂时失效，正在修复......
-# 如果有需要可以看我的另一种续费方式https://github.com/xzhbxjbaxj/cloud
-# FreeCloud 自动续费脚本
+🌤 FreeCloud 自动续期脚本
+本项目基于 GitHub Actions 自动运行 JS 脚本，用于定时登录 FreeCloud，自动完成端口续费任务。
 
-## 项目简介
-本脚本可实现 FreeCloud 平台服务器的自动化续费操作，支持 Telegram 消息通知功能。
+✨ 功能简介
+✅ 自动登录 FreeCloud
 
-## 功能特性
-- ✅ 自动化登录与 Cookie 维护
-- ⚡ 智能续费操作（支持自定义续费周期）
-- 📨 多通道通知（Telegram 机器人集成）
-- 📊 实时日志追踪（INFO/WARNING/ERROR分级）
+✅ 自动续费指定端口
 
-## 环境要求
-Python 3.8+ 
+✅ 每 6 天自动运行一次，也支持手动触发
 
-## 教程
-✅ 一、功能简介
-这个项目通过 GitHub Actions 自动运行 login.py 脚本，实现 FreeCloud 账号自动签到或续期，支持：
+✅ 支持自定义账户信息（通过 GitHub Secrets 管理）
 
-每 2 天自动运行一次（可手动执行）
+🧰 使用前提
+- 你需要有一个 FreeCloud 账户，并至少有一个激活的服务。
 
-Telegram 通知签到结果（可选）
+你需要知道你的：
+- 登录账号（用户名）
+- 密码
+- 端口 ID（在 FreeCloud 控制台中能看到，例如：12345）
 
-🛠️ 二、准备工作
-1. 你需要准备：
-- 一个 GitHub 账号（注册：https://github.com）
-- 一个 FreeCloud 账号（用于获取登录信息）
-（可选）一个 Telegram Bot Token 和 Chat ID（用于通知）
+🚀 快速开始
+1️⃣ Fork 本仓库
+点击右上角的 Fork，将此仓库复制到你自己的 GitHub 账户。
 
-📝 三、详细操作步骤
-第一步：Fork 仓库（复制一份到自己账号）
-1.打开项目页面（如果是别人的项目，地址形如 https://github.com/xxx/FreeCloud-Auto-Renew）
-2.点击右上角的 Fork，选择你自己的账号即可。
+2️⃣ 配置 GitHub Secrets<br>
+- 前往你的 Fork 仓库：
+- 进入 Settings → Secrets and variables → Actions → 点击 New repository secret
+- 添加以下 3 个变量（名字必须一致）：
 
-第二步：添加 Secrets（存放账号信息）
-- 1.进入你 Fork 后的仓库主页。
-- 2.点击 Settings → 左侧 Secrets and variables → Actions。
-- 3.点击 New repository secret 添加以下内容：
-                 
-| 名称              | 含义                 | 示例或说明                 |
-| --------------- | ------------------ | --------------------- |
-| `FC_USERNAME`   | FreeCloud 登录邮箱     | `example@gmail.com`   |
-| `FC_PASSWORD`   | FreeCloud 密码       | `yourpassword123`     |
-| `FC_MACHINE_ID` | 设备ID（一般是一个固定字符串）   | 登录 FreeCloud 后查看设备绑定页 |
-| `TG_BOT_TOKEN`  | Telegram 机器人令牌（可选） | `123456:ABC-DEF...`   |
-| `TG_CHAT_ID`    | Telegram 聊天 ID（可选） | `123456789`           |
+| Secret 名称       | 示例值                | 描述         |
+| --------------- | ------------------ | ---------- |
+| `FC_USERNAME`   | `user@example.com` | 登录用户名      |
+| `FC_PASSWORD`   | `mypassword123`    | 登录密码       |
+| `FC_MACHINE_ID` | `12345`            | 服务的端口或机器编号 |
 
-📌 提示：TG 信息非必须，不填也能运行。
 
-第三步：查看脚本运行（首次手动执行）
-- 1.打开你的仓库 → 点击顶部 Actions 标签页。
-- 2.你会看到 FreeCloud Auto Renew，点击进入。
-- 3.点击右侧 Run workflow → 点击绿色按钮手动运行一次。
+3️⃣ 启用 GitHub Actions
+- 点击仓库上方的 Actions 标签页
+- 选择左边的 续费 工作流
+- 点击右侧的 Run workflow 可手动执行任务，首次建议手动运行一次
+- 系统会每 2 天自动运行一次
 
-💡成功后可在 Actions 日志中查看签到结果。
+📂 项目结构说明
+.
+├── .github/workflows/
+│   └── renew.yml         # GitHub Actions 工作流配置
+├── renew.js              # 自动续费主程序（JS 编写）
+├── README.md             # 本说明文档
+🛠 技术栈
+- Node.js
+- GitHub Actions
+- node-fetch
 
-第四步：设置自动运行（已默认配置）
-在 .github/workflows/xxx.yml 文件中已经设置：
+❓常见问题
+Q1: 我的端口 ID 哪里看？
 
-- cron: "0 0 */2 * *"
-表示：每 2 天自动执行一次（UTC 时间 0:00），不需你手动改动。
+登录 FreeCloud 控制台，点击你购买的服务，URL 中类似 /server/detail/12345 中的数字 12345 就是端口 ID。
 
-💬 常见问题
-Q1：如何获取 FC_MACHINE_ID？
-答：登录 FreeCloud 官网，在设备管理处查看当前登录设备的唯一 ID，复制即可。
+Q2: GitHub Actions 运行失败怎么办？
 
-Q2：怎么获取 Telegram 通知 Token 和 Chat ID？
-答：@BotFather 创建 Bot，获取 Token
-向你的机器人发送一条消息，然后访问下面链接查看你的chat_id：https://api.telegram.org/bot<你的Token>/getUpdates
+请点击失败任务查看日志，常见原因包括账号或密码错误、端口号错误、网络问题等。
 
-✅ 教程完结<br>
-- 现在，你的 FreeCloud 自动签到系统已经搭建完成！它将：<br>
-- 每两天自动运行一次<br>
-- 使用你设置的账号自动签到<br>
-- 可选通知到 Telegram<br>
-- 如需进一步定制或调试，可以编辑 login.py 或 workflow 文件。<br>
-pip install cloudscraper requests
+Q3: 为什么输出 "Just a moment..." 页面？
+
+有可能是 Cloudflare 验证页面导致暂时无法续期。可尝试使用 Workers 服务绕过（此项目已内置 cloudflare bypass 的接口）。
+
+❤️ 鸣谢
+感谢：
+
+FreeCloud 提供免费服务
+
+Cloudflare Workers
+
+GitHub Actions 自动化平台
