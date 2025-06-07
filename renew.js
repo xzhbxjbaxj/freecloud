@@ -20,7 +20,7 @@ const urls = [
 const url = urls[Math.floor(Math.random() * urls.length)];
 
 const data = {
- // username: USERNAME,
+  username: USERNAME,
   password: PASSWORD,
   port: MACHINE_ID
 };
@@ -41,7 +41,17 @@ async function main() {
 
     try {
       const json = JSON.parse(text);
-      console.log("响应内容:", json.message);
+      const msg=json.message;
+         if (
+        msg.includes("请求体不是有效的 JSON") ||
+        msg.includes("缺少用户名、密码或端口号")
+      ) {
+        console.error(msg);
+        process.exit(1); // 让 GitHub Actions 失败退出
+      }
+      else{
+        console.log(msg)
+      }
     } catch (err) {
       console.log("⚠️ 返回内容非 JSON:\n", text);
     }
