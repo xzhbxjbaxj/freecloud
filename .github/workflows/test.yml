@@ -27,3 +27,5 @@ jobs:
           FC_USERNAME: ${{ secrets.FC_USERNAME }}
           FC_PASSWORD: ${{ secrets.FC_PASSWORD }}
           FC_MACHINE_ID: ${{ secrets.FC_MACHINE_ID }}
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN}}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
