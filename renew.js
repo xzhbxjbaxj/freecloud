@@ -12,7 +12,14 @@ if (!USERNAME || !PASSWORD || !MACHINE_ID) {
   process.exit(1);
 }
 
-const url = "https://raspy-disk-b126.dj2cubz.workers.dev/";
+// 多个 URL 轮换使用
+const urls = [
+  "https://raspy-disk-b126.dj2cubz.workers.dev/",
+  "https://round-breeze-41c8.dj2cubz.workers.dev/"
+];
+
+// 从中随机选择一个
+const url = urls[Math.floor(Math.random() * urls.length)];
 
 const data = {
   username: USERNAME,
@@ -31,6 +38,7 @@ async function main() {
     });
 
     const text = await response.text();
+    console.log("使用接口:", url);
     console.log("状态码:", response.status);
     console.log("响应文本:\n", text);
   } catch (err) {
