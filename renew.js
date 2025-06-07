@@ -8,7 +8,7 @@ function sleep(ms) {
 async function main() {
   const USERNAME = process.env.FC_USERNAME;
   const PASSWORD = process.env.FC_PASSWORD;
-  const PORT = process.env.FC_PORT;
+  const PORT = process.env.FC_MACHINE_ID;
 
   if (!USERNAME || !PASSWORD || !PORT) {
     console.error("❌ 缺少环境变量 FC_USERNAME、FC_PASSWORD 或 FC_PORT");
