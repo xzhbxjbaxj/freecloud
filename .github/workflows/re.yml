@@ -21,7 +21,7 @@ jobs:
         run: npm install node-fetch@2
 
       - name: Run renew script
-        run: node renew.js
+        run: node new.js
         env:
           FREECLOUD_ACCOUNTS: ${{ secrets.FREECLOUD_ACCOUNTS }}
           FREECLOUD_WORKERS: ${{ secrets.FREECLOUD_WORKERS }}
