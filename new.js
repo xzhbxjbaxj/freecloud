@@ -7,12 +7,13 @@ const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
 
 
-const FREECLOUD_ACCOUNTS=[{
-  "username":"",
-  "password":"",
-  "port":""
-}]
-
+const FREECLOUD_ACCOUNTS = [
+  {
+    "username": "your_username",
+    "password": "your_password",
+    "port": 1234
+  }
+];
 const WORKER_ENDPOINTS=["https://solitary-cake-6f69.dj2cubz.workers.dev/"]
 
 
