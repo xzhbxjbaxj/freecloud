@@ -2,18 +2,18 @@ import fetch from "node-fetch";
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-const FREECLOUD_ACCOUNTS = process.env.FREECLOUD_ACCOUNTS;
-const WORKER_ENDPOINTS = process.env.FREECLOUD_WORKERS?.split(",") || [];
+// const FREECLOUD_ACCOUNTS = process.env.FREECLOUD_ACCOUNTS;
+// const WORKER_ENDPOINTS = process.env.FREECLOUD_WORKERS?.split(",") || [];
 
 
 
-FREECLOUD_ACCOUNTS={
+const FREECLOUD_ACCOUNTS={
   "username":"",
   "password":"",
   "port":""
 }
 
-WORKER_ENDPOINTS=["https://solitary-cake-6f69.dj2cubz.workers.dev/"]
+const WORKER_ENDPOINTS=["https://solitary-cake-6f69.dj2cubz.workers.dev/"]
 
 
 if (!FREECLOUD_ACCOUNTS || WORKER_ENDPOINTS.length === 0) {
