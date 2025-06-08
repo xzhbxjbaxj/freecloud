@@ -24,13 +24,13 @@ if (!FREECLOUD_ACCOUNTS || WORKER_ENDPOINTS.length === 0) {
 }
 
 let accounts;
-try {
-  accounts = JSON.parse(FREECLOUD_ACCOUNTS);
-  if (!Array.isArray(accounts) || accounts.length === 0) throw new Error();
-} catch {
-  console.error("❌ FREECLOUD_ACCOUNTS 格式无效，需为 JSON 数组");
-  process.exit(1);
-}
+// try {
+//   accounts = JSON.parse(FREECLOUD_ACCOUNTS);
+//   if (!Array.isArray(accounts) || accounts.length === 0) throw new Error();
+// } catch {
+//   console.error("❌ FREECLOUD_ACCOUNTS 格式无效，需为 JSON 数组");
+//   process.exit(1);
+// }
 
 console.log(`🧾 共 ${accounts.length} 个账户待处理\n`);
 
