@@ -56,10 +56,10 @@ async function sendTelegramMessage(message) {
  * ✅ 请求续期接口
  * @param {string} username
  * @param {string} password
- * @param {string} machineId
+ * @param {number} machineId
  */
 async function renewMachine(username, password, machineId) {
-  const payload = { username, password, port: machineId };
+  const payload = { username, password, port: parseInt(machineId, 10) };
   const endpoint = getRandomEndpoint();
   console.log(`📡 请求接口: ${endpoint} [用户: ${username}, 机器: ${machineId}]`);
 
@@ -110,7 +110,7 @@ async function renewMachine(username, password, machineId) {
     }
 
     for (const machineId of machines) {
-      await renewMachine(username, password, machineId);
+      await renewMachine(username, password, parseInt(machineId, 10));
       await new Promise(r => setTimeout(r, 1000 + Math.floor(Math.random() * 1000))); // 防止过快请求
     }
   }
