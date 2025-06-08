@@ -9,11 +9,12 @@ const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
 const FREECLOUD_ACCOUNTS = [
   {
-    "username": "your_username",
-    "password": "your_password",
-    "port": 1234
+    username: "your_username",
+    password: "your_password",
+    port: "12345"
   }
 ];
+
 const WORKER_ENDPOINTS=["https://solitary-cake-6f69.dj2cubz.workers.dev/"]
 
 
