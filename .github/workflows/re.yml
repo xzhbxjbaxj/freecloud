@@ -1,0 +1,29 @@
+name: FreeCloud 续订
+
+on:
+  schedule:
+    - cron: '0 1 * * *' # 每天凌晨 1 点 UTC 运行
+  workflow_dispatch:
+
+jobs:
+  renew:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install node-fetch@2
+
+      - name: Run renew script
+        run: node renew.js
+        env:
+          FREECLOUD_ACCOUNTS: ${{ secrets.FREECLOUD_ACCOUNTS }}
+          FREECLOUD_WORKERS: ${{ secrets.FREECLOUD_WORKERS }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
