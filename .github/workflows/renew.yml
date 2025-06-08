@@ -19,7 +19,7 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-        run: npm install node-fetch@2
+        run: npm install 
 
       - name: Run JS Renew Script
         run: node raw_renew.js
