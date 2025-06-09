@@ -1,10 +1,14 @@
 import fetch from "node-fetch";
 
-// ✅ 环境变量集中校验
+// ✅ 必须环境变量
 const requiredEnv = {
   FC_USERNAME: process.env.FC_USERNAME,
   FC_PASSWORD: process.env.FC_PASSWORD,
-  FC_MACHINE_ID: process.env.FC_MACHINE_ID,
+  FC_MACHINE_ID: process.env.FC_MACHINE_ID
+};
+
+// ✅ 可选环境变量
+const optionalEnv = {
   TG_BOT_TOKEN: process.env.TG_BOT_TOKEN,
   TG_CHAT_ID: process.env.TG_CHAT_ID
 };
@@ -18,7 +22,8 @@ if (missingVars.length) {
   process.exit(1);
 }
 
-const { FC_USERNAME, FC_PASSWORD, FC_MACHINE_ID, TG_BOT_TOKEN, TG_CHAT_ID } = requiredEnv;
+const { FC_USERNAME, FC_PASSWORD, FC_MACHINE_ID } = requiredEnv;
+const { TG_BOT_TOKEN, TG_CHAT_ID } = optionalEnv;
 
 // ✅ 可扩展的接口配置
 const apiEndpoints = [
